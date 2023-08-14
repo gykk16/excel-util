@@ -1,0 +1,46 @@
+plugins {
+    id 'java'
+}
+
+group = 'glory.tools'
+version = '0.0.2'
+
+java {
+    sourceCompatibility = '17'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter:3.1.2'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:3.1.2'
+
+    // excel
+    implementation 'org.apache.poi:poi-ooxml:5.2.3'
+
+    // commons-lang3
+    implementation 'org.apache.commons:commons-lang3:3.13.0'
+    // commons-compress
+    implementation 'org.apache.commons:commons-compress:1.23.0'
+
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+// create fat jar
+// https://www.baeldung.com/gradle-fat-jar
+jar {
+    manifest {
+        attributes "Main-Class": "glory.tools.excelutil.Application"
+    }
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
