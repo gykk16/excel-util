@@ -10,10 +10,10 @@ import org.springframework.util.Assert;
 
 public class ExcelFileUtil {
 
+    public static final String EXCEL_FILE_EXTENSION = ".xlsx";
+
     private ExcelFileUtil() {
     }
-
-    public static final String EXCEL_FILE_EXTENSION = ".xlsx";
 
     /**
      * Returns true if the file extension is xlsx

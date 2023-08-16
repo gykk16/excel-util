@@ -21,9 +21,8 @@ import org.springframework.lang.NonNull;
  */
 public class SingleSheetExcelWriter<T> extends SXSSFExcelWriter<T> {
 
-    private static final int ROW_START_INDEX    = 0;
-    private static final int COLUMN_START_INDEX = 0;
-    private              int currentRowIndex    = ROW_START_INDEX;
+    private static final int ROW_START_INDEX = 1; // 0 is for header
+    private              int currentRowIndex = ROW_START_INDEX;
 
     public SingleSheetExcelWriter(@NonNull Class<T> type) {
         this(Collections.emptyList(), type);
@@ -41,34 +40,28 @@ public class SingleSheetExcelWriter<T> extends SXSSFExcelWriter<T> {
     }
 
     @Override
-    protected void validateData(List<T> data) {
-        int maxRows = supplyExcelVersion.getMaxRows();
-        if (data.size() >= maxRows) {
-            throw new IllegalArgumentException(
-                    "This concrete ExcelFile does not support over %s rows".formatted(maxRows));
-        }
-    }
-
-    @Override
     public void renderExcel(List<T> data) {
-        // 1. Create sheet and renderHeader
         sheet = wb.createSheet();
-        renderHeadersWithNewSheet(sheet, currentRowIndex++, COLUMN_START_INDEX);
+        renderHeaders();
 
         if (data.isEmpty()) {
             return;
         }
 
-        // 2. Render Body
-        for (Object renderedData : data) {
-            renderBody(renderedData, currentRowIndex++, COLUMN_START_INDEX);
-        }
+        addRows(data);
     }
 
     @Override
     public void addRows(List<T> data) {
-        for (Object renderedData : data) {
-            renderBody(renderedData, currentRowIndex++, COLUMN_START_INDEX);
+        for (T rowData : data) {
+            renderDataRow(rowData, currentRowIndex++);
+        }
+    }
+
+    @Override
+    protected void validateData(List<T> data) {
+        if (data.size() >= supplyExcelVersion.getMaxRows()) {
+            throw new IllegalArgumentException("Data exceeds the maximum rows supported by Excel.");
         }
     }
 

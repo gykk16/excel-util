@@ -6,7 +6,6 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import glory.tools.excelutil.style.NoExcelCellStyle;
-import org.springframework.core.annotation.AliasFor;
 
 /**
  * ExcelColumn Annotation

@@ -23,10 +23,7 @@ public class DefaultExcelColor implements ExcelColor {
     }
 
     public static DefaultExcelColor rgb(int red, int green, int blue) {
-        if (red < MIN_RGB || red > MAX_RGB || green < MIN_RGB
-            || green > MAX_RGB || blue < MIN_RGB || blue > MAX_RGB) {
-            throw new IllegalArgumentException("Wrong RGB(%s %s %s)".formatted(red, green, blue));
-        }
+        validateRGB(red, green, blue);
         return new DefaultExcelColor((byte)red, (byte)green, (byte)blue);
     }
 
@@ -36,15 +33,23 @@ public class DefaultExcelColor implements ExcelColor {
      */
     @Override
     public void applyForeground(CellStyle cellStyle) {
-        try {
-            XSSFCellStyle xssfCellStyle = (XSSFCellStyle)cellStyle;
-            xssfCellStyle.setFillForegroundColor(
-                    new XSSFColor(new byte[] {red, green, blue}, new DefaultIndexedColorMap()));
-        } catch (Exception e) {
+        if (!(cellStyle instanceof XSSFCellStyle xssfCellStyle)) {
             throw new UnSupportedExcelTypeException(
-                    "Excel Type %s is not supported now".formatted(cellStyle.getClass()));
+                    "Unsupported Excel Type: %s. Only XSSFCellStyle is supported."
+                            .formatted(cellStyle.getClass().getName()));
         }
+
+        xssfCellStyle.setFillForegroundColor(
+                new XSSFColor(new byte[] {red, green, blue}, new DefaultIndexedColorMap()));
         cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+    }
+
+    private static void validateRGB(int red, int green, int blue) {
+        if (red < MIN_RGB || red > MAX_RGB
+            || green < MIN_RGB || green > MAX_RGB
+            || blue < MIN_RGB || blue > MAX_RGB) {
+            throw new IllegalArgumentException("Wrong RGB(%s %s %s)".formatted(red, green, blue));
+        }
     }
 
 }

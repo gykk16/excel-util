@@ -11,11 +11,11 @@ public abstract class CustomExcelCellStyle implements ExcelCellStyle {
         configure(configurer);
     }
 
-    public abstract void configure(ExcelCellStyleConfigurer configurer);
-
     @Override
     public void apply(CellStyle cellStyle) {
         configurer.configure(cellStyle);
     }
+
+    public abstract void configure(ExcelCellStyleConfigurer configurer);
 
 }

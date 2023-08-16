@@ -53,8 +53,8 @@ public class ExcelReader {
             }
 
             short lastCellNum = sheet.getRow(0).getLastCellNum();
-            log.info("# ==> lastCellNum = {}", lastCellNum);
-            log.info("# ==> lastRowNum = {}", lastRowNum);
+            log.debug("# ==> lastCellNum = {}", lastCellNum);
+            log.debug("# ==> lastRowNum = {}", lastRowNum);
 
             int startRow = hasHeader ? 1 : 0;
             for (int currentRowNum = startRow; currentRowNum < lastRowNum + 1; currentRowNum++) {
