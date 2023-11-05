@@ -7,7 +7,6 @@ import java.lang.annotation.Target;
 
 import glory.tools.excelutil.style.DefaultExcelCellStyle;
 
-
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ExcelDefaultHeaderStyle {

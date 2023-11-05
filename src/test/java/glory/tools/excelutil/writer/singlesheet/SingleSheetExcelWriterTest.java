@@ -1,6 +1,7 @@
 package glory.tools.excelutil.writer.singlesheet;
 
-import static glory.tools.excelutil.common.ExcelFileUtil.*;
+import static glory.tools.excelutil.common.ExcelFileUtil.EXCEL_FILE_EXTENSION;
+import static glory.tools.excelutil.common.ExcelFileUtil.getExcelFileWriter;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -9,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
 
-import glory.tools.excelutil.common.ExcelFileUtil;
 import glory.tools.excelutil.reader.ExcelReader;
 import glory.tools.excelutil.writer.ExcelWriter;
 import glory.tools.excelutil.writer.TestDataDTO;

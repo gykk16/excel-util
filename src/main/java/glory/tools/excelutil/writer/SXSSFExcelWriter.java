@@ -55,9 +55,9 @@ public abstract class SXSSFExcelWriter<T> implements ExcelWriter<T> {
         return supplyExcelVersion;
     }
 
-    protected abstract void validateData(List<T> data);
-
     public abstract void renderExcel(List<T> data);
+
+    protected abstract void validateData(List<T> data);
 
     protected void renderHeaders() {
         Row row = sheet.createRow(HEADER_ROW_INDEX);
